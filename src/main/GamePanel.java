@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int FPS = 60;
 
     Thread gameThread;
+    MouseController mouseController = new MouseController();
 
     Level currentLevel = new Menu();
 
@@ -20,6 +21,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        this.addMouseListener(mouseController);
+        this.addMouseMotionListener(mouseController);
     }
 
     public void startGameThread() {
@@ -46,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
-
+        currentLevel.update(mouseController);
     }
 
     protected void paintComponent(Graphics g) {

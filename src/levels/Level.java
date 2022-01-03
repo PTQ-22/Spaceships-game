@@ -1,5 +1,7 @@
 package levels;
 
+import main.MouseController;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,6 +12,8 @@ public abstract class Level {
     BufferedImage backgroundImage;
 
     public abstract void draw(Graphics2D g2);
+
+    public abstract void update(MouseController mouseController);
 
     protected void drawBackground(Graphics2D g2) {
         g2.drawImage(backgroundImage, 0, 0, null);
