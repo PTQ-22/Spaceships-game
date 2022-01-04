@@ -3,6 +3,7 @@ package levels;
 import button.Button;
 import button.StarsButton;
 import main.MouseController;
+import starData.StarFileController;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,11 +24,17 @@ public class Menu extends Level{
             String IMG_PATH = "../images/menu_background/background_start_";
             backgroundImages[i - 1] = loadBackgroundImage(IMG_PATH + i + ".png");
         }
+        // load star data
+        int numOfStarGroups = 9;
+        int[][] isStar = new int[numOfStarGroups][3];
+        StarFileController starFileController = new StarFileController();
+        starFileController.getAllStars(isStar);
+
         // create buttons array
         buttons[0] = delButton;
         int yPosCounter = 60;
         for (int i = 1; i < NUM_OF_BUTTONS; ++i) {
-            buttons[i] = new StarsButton(700, yPosCounter, 280, 50, new Color(0, 0, 150), new Color(0, 0, 100), "Level " + i);
+            buttons[i] = new StarsButton(700, yPosCounter, 280, 50, new Color(0, 0, 150), new Color(0, 0, 100), "Level " + i, isStar[i - 1]);
             yPosCounter += 70;
         }
     }
@@ -37,9 +44,12 @@ public class Menu extends Level{
         for (Button b: buttons) {
             if (b.isMouse(mouseController.mousePos)) {
                 b.changeColorToFocus();
-                if (mouseController.clicked) {
-                    System.out.println("Click");
-                    mouseController.clicked = false;
+                if (mouseController.isClicked()) {
+
+                    StarFileController starFileController = new StarFileController();
+                    starFileController.updateStars(5, new int [] {1, 1, 1} );
+
+                    mouseController.setClicked(false);
                 }
             }
             else {
