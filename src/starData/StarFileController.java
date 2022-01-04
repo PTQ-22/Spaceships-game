@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class StarFileController {
@@ -31,6 +32,11 @@ public class StarFileController {
             }
             stars[i] = s;
         }
+    }
+
+    public void resetAllStars() {
+        Arrays.fill(fileLines, "0 0 0");
+        writeFileLines();
     }
 
     private void writeFileLines() {

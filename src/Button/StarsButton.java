@@ -1,4 +1,4 @@
-package button;
+package Button;
 
 import java.awt.*;
 
@@ -19,10 +19,11 @@ public class StarsButton extends Button{
     private final boolean isStar2;
     private final boolean isStar3;
 
-    Font font = new Font("FreeSans", Font.BOLD, 30);
+    private final int ID;
 
-    public StarsButton(int x, int y, int width, int height, Color color, Color focusColor, String text, int[] stars) {
-        super(x, y, width, height, color, focusColor, text);
+    public StarsButton(int x, int y, int width, int height, Color color, Color focusColor, String text, int[] stars, int id) {
+        super(x, y, width, height, color, focusColor, text, 30);
+        ID = id;
         isStar1 = stars[0] != 0;
         isStar2 = stars[1] != 0;
         isStar3 = stars[2] != 0;
@@ -71,5 +72,9 @@ public class StarsButton extends Button{
         if (isStar3) g2.setColor(Color.yellow);
         else g2.setColor(Color.black);
         g2.fillPolygon(pointsXStar3, pointsYStar3, NUM_POINTS);
+    }
+
+    public int getID() {
+        return ID;
     }
 }

@@ -1,4 +1,4 @@
-package button;
+package Button;
 
 import java.awt.*;
 
@@ -10,15 +10,18 @@ public class Button {
     final String TEXT;
     Color currentColor;
 
-    Font font = new Font("FreeSans", Font.BOLD, 15);
+    Font font;
 
-    public Button(int x, int y, int width, int height, Color color, Color focusColor, String text) {
+    public int fontPosXChange = 0;
+
+    public Button(int x, int y, int width, int height, Color color, Color focusColor, String text, int fontSize) {
         X = x; Y = y;
         WIDTH = width; HEIGHT = height;
         COLOR = color;
         FOCUS_COLOR = focusColor;
         currentColor = color;
         TEXT = text;
+        font = new Font("FreeSans", Font.BOLD, fontSize);
     }
 
     public void draw(Graphics2D g2) {
@@ -34,7 +37,7 @@ public class Button {
 
         g2.setColor(Color.black);
         g2.setFont(font);
-        g2.drawString(TEXT, X + 15, Y + (HEIGHT / 2 + BORDER_SIZE));
+        g2.drawString(TEXT, X + 15 + fontPosXChange, Y + (HEIGHT / 2 + BORDER_SIZE));
     }
 
     public void changeColorToDefault() {
