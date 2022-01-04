@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
+        currentLevel.update();
         currentLevel = currentLevel.updateLevelType();
     }
 

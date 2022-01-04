@@ -2,6 +2,7 @@ package levels;
 
 import Button.Button;
 import Entities.Player;
+import Entities.Entity;
 import main.KeyHandler;
 import main.MouseController;
 
@@ -10,12 +11,14 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Level {
     protected BufferedImage backgroundImage;
     protected Player player;
     protected Button menuButton = null;
+    protected ArrayList<Entity> enemiesList;
     MouseController mouseController;
     KeyHandler keyHandler;
 
