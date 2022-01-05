@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 public class RedSmall extends Entity {
 
-    public RedSmall(int x, int y) {
-        super(x, y, 120, 120, 400, 3,
+    public RedSmall(int x, int y, int hp, int hpBarX) {
+        super(x, y, 120, 120, hp, 3,
                 49, 74, 38, 63,
                 "ENEMY", "red_enemy/enemy1_");
-        hpBar = new HpBar(40, 25, hp, name);
+        hpBar = new HpBar(hpBarX, 25, hp, name);
 
         bullets = new ArrayList<>();
     }

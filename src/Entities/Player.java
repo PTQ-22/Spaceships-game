@@ -12,6 +12,7 @@ public class Player extends Entity{
     BufferedImage[] imagesTurnRight = new BufferedImage[NUM_OF_IMAGES];
     BufferedImage[] imagesTurnLeft = new BufferedImage[NUM_OF_IMAGES];
     BufferedImage[] currentImages;
+    private final int START_HP;
 
     public Player(KeyHandler kH) {
         keyHandler = kH;
@@ -28,6 +29,7 @@ public class Player extends Entity{
         this.speed = 6;
 
         this.hp = 200;
+        START_HP = hp;
         this.name = "PLAYER";
         this.hpBar = new HpBar(20, 720, hp, name);
 
@@ -100,5 +102,9 @@ public class Player extends Entity{
             String IMG_PATH = "../images/" + imgFolderAndFilePathName;
             images[i - 1] = loadImage(IMG_PATH + i + ".png");
         }
+    }
+
+    public int getSTART_HP() {
+        return START_HP;
     }
 }

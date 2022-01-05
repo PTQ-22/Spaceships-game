@@ -6,6 +6,7 @@ import Entities.Player;
 import Entities.Entity;
 import main.KeyHandler;
 import main.MouseController;
+import starData.StarFileController;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -24,24 +25,84 @@ public abstract class Level {
     protected String state = "game";
     protected Font font;
     protected final int FONT_SIZE = 100;
+    protected int[] stars;
+    protected int levelNumber;
 
-    public Level(MouseController mC, KeyHandler kH) {
+    public Level(MouseController mC, KeyHandler kH, int levelNumber) {
+        this.levelNumber = levelNumber;
         mouseController = mC;
         keyHandler = kH;
         player = new Player(kH);
+        enemiesList = new ArrayList<>();
+        stars = new int[] {0, 0, 0};
         menuButton = new Button(5, 5, 25, 20, new Color(255, 0, 0), new Color(200, 0, 0), "X", 15);
         menuButton.fontPosXChange = -6;
     }
 
     protected Level() {} // for Menu different constructor
 
-    public abstract void draw(Graphics2D g2);
+    public void draw(Graphics2D g2) {
+        drawBackground(g2);
+        switch (state) {
+            case "game" -> {
+                player.draw(g2);
+                player.drawBullets(g2);
+                for (Entity e : enemiesList) {
+                    e.draw(g2);
+                    e.drawBullets(g2);
+                }
+            }
+            case "win" -> {
+                player.draw(g2);
+                player.drawBullets(g2);
+                g2.setColor(Color.green);
+                g2.setFont(font);
+                g2.drawString("WIN", 390, 300);
+            }
+            case "lose" -> {
+                for (Entity e : enemiesList) {
+                    e.draw(g2);
+                    e.drawBullets(g2);
+                }
+                g2.setColor(new Color(230, 0, 0));
+                g2.setFont(font);
+                g2.drawString("LOSE", 360, 300);
+            }
+        }
+    }
 
-    public abstract void update();
+    public void update() {
+
+        switch (state) {
+            case "game" -> {
+                player.move();
+                player.moveBullets();
+                checkPlayerBulletsHits();
+                for (Entity e : enemiesList) {
+                    e.move();
+                    e.moveBullets();
+                    checkEnemyBulletsHits(e);
+                }
+                checkCurrentState();
+            }
+            case "win" -> {
+                player.move();
+                player.moveBullets();
+            }
+            case "lose" -> {
+                for (Entity e : enemiesList) {
+                    e.move();
+                    e.moveBullets();
+                    checkEnemyBulletsHits(e);
+                }
+            }
+        }
+    }
 
     protected void checkCurrentState() {
         if (enemiesList.size() == 0) {
             state = "win";
+            setStars();
             font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
         }
         if (player.getHp() <= 0) {
@@ -96,6 +157,8 @@ public abstract class Level {
             if (mouseController.clicked) {
                 mouseController.clicked = false;
 
+                saveStars();
+
                 return new Menu(mouseController, keyHandler);
             }
         }
@@ -105,6 +168,21 @@ public abstract class Level {
         mouseController.clicked = false;
 
         return this;
+    }
+
+    protected void setStars() {
+        stars[0] = 1;
+        if (player.getHp() == player.getSTART_HP()) {
+            stars[1] = 1;
+        }
+        if (!player.isLostBullet()) {
+            stars[2] = 1;
+        }
+    }
+
+    protected void saveStars() {
+        StarFileController starFileController = new StarFileController();
+        starFileController.updateStars(levelNumber, stars);
     }
 
     protected void drawBackground(Graphics2D g2) {

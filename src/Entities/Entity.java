@@ -28,6 +28,7 @@ public abstract class Entity {
     protected int animationCounter = 0;
 
     public ArrayList<Bullet> bullets;
+    protected boolean lostBullet = false;
 
     protected Entity() {} // for player
 
@@ -61,6 +62,10 @@ public abstract class Entity {
         return hp;
     }
 
+    public boolean isLostBullet() {
+        return lostBullet;
+    }
+
     public void drawBullets(Graphics2D g2) {
         for (Bullet b : bullets) {
             b.draw(g2);
@@ -72,6 +77,7 @@ public abstract class Entity {
             Bullet bullet = bullets.get(i);
             bullet.move();
             if (bullet.outOfGame()) {
+                lostBullet = true;
                 bullets.remove(i);
                 --i;
             }

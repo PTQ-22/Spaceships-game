@@ -8,7 +8,7 @@ import java.awt.*;
 public class Level7 extends Level{
 
     public Level7(MouseController mC, KeyHandler kH) {
-        super(mC, kH);
+        super(mC, kH, 7);
         backgroundImage = loadBackgroundImage("../images/level_background/background_l7.png");
     }
 
