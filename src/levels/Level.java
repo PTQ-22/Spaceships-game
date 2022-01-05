@@ -1,14 +1,14 @@
 package levels;
 
 import Button.Button;
+import Entities.Bullets.Bullet;
 import Entities.Player;
 import Entities.Entity;
 import main.KeyHandler;
 import main.MouseController;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,8 +19,11 @@ public abstract class Level {
     protected Player player;
     protected Button menuButton = null;
     protected ArrayList<Entity> enemiesList;
-    MouseController mouseController;
-    KeyHandler keyHandler;
+    protected MouseController mouseController;
+    protected KeyHandler keyHandler;
+    protected String state = "game";
+    protected Font font;
+    protected final int FONT_SIZE = 100;
 
     public Level(MouseController mC, KeyHandler kH) {
         mouseController = mC;
@@ -35,6 +38,57 @@ public abstract class Level {
     public abstract void draw(Graphics2D g2);
 
     public abstract void update();
+
+    protected void checkCurrentState() {
+        if (enemiesList.size() == 0) {
+            state = "win";
+            font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
+        }
+        if (player.getHp() <= 0) {
+            state = "lose";
+            font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
+        }
+        for (int i = 0; i < enemiesList.size(); ++i) {
+            Entity e = enemiesList.get(i);
+            if (player.collision(e)) {
+                enemiesList.remove(i);
+                --i;
+                state = "lose";
+                font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
+            }
+        }
+    }
+
+    protected void checkPlayerBulletsHits() {
+        // check if player bullet hits
+        for (int i = 0; i < player.bullets.size(); ++i) {
+            Bullet playerBullet = player.bullets.get(i);
+            for (int j = 0; j < enemiesList.size(); ++j) {
+                Entity e = enemiesList.get(j);
+                if (playerBullet.hit(e)) {
+                    player.bullets.remove(i);
+                    --i;
+                    e.decreaseHp(playerBullet.getPower());
+                    if (e.getHp() <= 0) {
+                        enemiesList.remove(j);
+                        --j;
+                    }
+                }
+            }
+        }
+    }
+
+    protected void checkEnemyBulletsHits(Entity e) {
+        // check if enemy bullet hits
+        for (int i = 0; i < e.bullets.size(); ++i) {
+            Bullet enemyBullet = e.bullets.get(i);
+            if (enemyBullet.hit(player)) {
+                e.bullets.remove(i);
+                --i;
+                player.decreaseHp(enemyBullet.getPower());
+            }
+        }
+    }
 
     public Level updateLevelType() {
         if (menuButton.isMouse(mouseController.mousePos)) {

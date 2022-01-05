@@ -1,31 +1,45 @@
 package Entities;
 
+import Entities.Bullets.Bullet;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Entity {
 
-    protected int x, y;
-    protected int width, height;
+    public int x, y;
+    public int pointX1, pointX2;
+    public int pointY1, pointY2;
+    public int width, height;
     protected String name;
 
     protected int speed;
+    protected boolean goRight = true;
 
-    HpBar hpBar;
+    protected HpBar hpBar;
     protected int hp;
 
     protected final int NUM_OF_IMAGES = 11;
-    BufferedImage[] images = new BufferedImage[NUM_OF_IMAGES];
+    protected BufferedImage[] images = new BufferedImage[NUM_OF_IMAGES];
     protected int animationCounter = 0;
+
+    public ArrayList<Bullet> bullets;
 
     protected Entity() {} // for player
 
-    public Entity(int x, int y, int width, int height, int hp, int speed, String name, String imgFolderAndFilePathName) {
+    public Entity(int x, int y, int width, int height, int hp, int speed,
+                  int pointX1, int pointX2, int pointY1, int pointY2,
+                  String name, String imgFolderAndFilePathName) {
         this.x = x;
         this.y = y;
+        this.pointX1 = pointX1;
+        this.pointX2 = pointX2;
+        this.pointY1 = pointY1;
+        this.pointY2 = pointY2;
         this.hp = hp;
         this.speed = speed;
         this.width = width;
@@ -39,9 +53,34 @@ public abstract class Entity {
 
     public abstract void move();
 
+    public void decreaseHp(int val) {
+        hp -= val;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void drawBullets(Graphics2D g2) {
+        for (Bullet b : bullets) {
+            b.draw(g2);
+        }
+    }
+
+    public void moveBullets() {
+        for (int i = 0; i < bullets.size(); ++i) {
+            Bullet bullet = bullets.get(i);
+            bullet.move();
+            if (bullet.outOfGame()) {
+                bullets.remove(i);
+                --i;
+            }
+        }
+    }
+
     protected void loadAllImages(String imgFolderAndFilePathName) {
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
-            String IMG_PATH = "../images/" + imgFolderAndFilePathName;
+            String IMG_PATH = "../../images/" + imgFolderAndFilePathName;
             images[i - 1] = loadImage(IMG_PATH + i + ".png");
         }
     }
