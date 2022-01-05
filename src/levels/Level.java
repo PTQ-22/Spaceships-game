@@ -27,6 +27,8 @@ public abstract class Level {
     protected final int FONT_SIZE = 100;
     protected int[] stars;
     protected int levelNumber;
+    protected ArrayList<Entity> boomEntities;
+//    protected int animationCounter;
 
     public Level(MouseController mC, KeyHandler kH, int levelNumber) {
         this.levelNumber = levelNumber;
@@ -34,6 +36,7 @@ public abstract class Level {
         keyHandler = kH;
         player = new Player(kH);
         enemiesList = new ArrayList<>();
+        boomEntities = new ArrayList<>();
         stars = new int[] {0, 0, 0};
         menuButton = new Button(5, 5, 25, 20, new Color(255, 0, 0), new Color(200, 0, 0), "X", 15);
         menuButton.fontPosXChange = -6;
@@ -53,6 +56,7 @@ public abstract class Level {
                 }
             }
             case "win" -> {
+                drawAllBoomAnimations(g2);
                 player.draw(g2);
                 player.drawBullets(g2);
                 g2.setColor(Color.green);
@@ -60,6 +64,7 @@ public abstract class Level {
                 g2.drawString("WIN", 390, 300);
             }
             case "lose" -> {
+                drawAllBoomAnimations(g2);
                 for (Entity e : enemiesList) {
                     e.draw(g2);
                     e.drawBullets(g2);
@@ -106,12 +111,15 @@ public abstract class Level {
             font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
         }
         if (player.getHp() <= 0) {
+            startBoomAnimation(player);
             state = "lose";
             font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
         }
         for (int i = 0; i < enemiesList.size(); ++i) {
             Entity e = enemiesList.get(i);
             if (player.collision(e)) {
+                startBoomAnimation(player);
+                startBoomAnimation(e);
                 enemiesList.remove(i);
                 --i;
                 state = "lose";
@@ -131,6 +139,7 @@ public abstract class Level {
                     --i;
                     e.decreaseHp(playerBullet.getPower());
                     if (e.getHp() <= 0) {
+                        startBoomAnimation(e);
                         enemiesList.remove(j);
                         --j;
                     }
@@ -147,6 +156,21 @@ public abstract class Level {
                 e.bullets.remove(i);
                 --i;
                 player.decreaseHp(enemyBullet.getPower());
+            }
+        }
+    }
+
+    protected void startBoomAnimation(Entity e) {
+        e.isBoom = true;
+        boomEntities.add(e);
+    }
+    protected void drawAllBoomAnimations(Graphics2D g2) {
+        for (int i = 0; i < boomEntities.size(); ++i) {
+            Entity e = boomEntities.get(i);
+            e.drawBoomAnimation(g2);
+            if (!e.isBoom) {
+                boomEntities.remove(i);
+                --i;
             }
         }
     }

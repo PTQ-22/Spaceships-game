@@ -25,11 +25,13 @@ public abstract class Entity {
 
     protected final int NUM_OF_IMAGES = 11;
     protected BufferedImage[] images = new BufferedImage[NUM_OF_IMAGES];
+    protected BufferedImage[] boomImages = new BufferedImage[NUM_OF_IMAGES];
     protected int animationCounter = 0;
 
     public ArrayList<Bullet> bullets;
     protected boolean lostBullet = false;
-
+    public boolean isBoom = false;
+    public int boomAnimationCounter = 0;
     protected Entity() {} // for player
 
     public Entity(int x, int y, int width, int height, int hp, int speed,
@@ -72,6 +74,14 @@ public abstract class Entity {
         }
     }
 
+    public void drawBoomAnimation(Graphics2D g2) {
+        boomAnimationCounter++;
+        if (boomAnimationCounter >= 58) {
+            isBoom = false;
+        }
+        g2.drawImage(boomImages[boomAnimationCounter / 6], x, y, null);
+    }
+
     public void moveBullets() {
         for (int i = 0; i < bullets.size(); ++i) {
             Bullet bullet = bullets.get(i);
@@ -88,6 +98,7 @@ public abstract class Entity {
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
             String IMG_PATH = "../../images/" + imgFolderAndFilePathName;
             images[i - 1] = loadImage(IMG_PATH + i + ".png");
+            boomImages[i - 1] = loadImage("../../images/boom_animation/boom_" + i + ".png");
         }
     }
 

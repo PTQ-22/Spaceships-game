@@ -84,8 +84,7 @@ public class Player extends Entity{
             if ((enemy.y + enemy.height - 45) > this.y && (enemy.y + 55) < (this.y + this.height))
                 return true;
         if ((enemy.x + enemy.width - 40) > (this.x + 40) && (enemy.x + 40) < (this.x + this.width - 40))
-            if ((enemy.y + enemy.height) > this.y && enemy.y < (this.y + this.height))
-                return true;
+            return (enemy.y + enemy.height) > this.y && enemy.y < (this.y + this.height);
         return false;
     }
 
@@ -101,6 +100,7 @@ public class Player extends Entity{
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
             String IMG_PATH = "../images/" + imgFolderAndFilePathName;
             images[i - 1] = loadImage(IMG_PATH + i + ".png");
+            boomImages[i - 1] = loadImage("../images/boom_animation/boom_" + i + ".png");
         }
     }
 
