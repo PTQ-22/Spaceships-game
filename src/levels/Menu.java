@@ -13,6 +13,7 @@ public class Menu extends Level{
     private final int NUM_OF_IMAGES = 11;
     private final BufferedImage[] backgroundImages = new BufferedImage[NUM_OF_IMAGES];
     private int animationCounter = 0;
+    private final int[][] isStar;
 
     private final int NUM_OF_LEVELS = 9;
 
@@ -29,7 +30,7 @@ public class Menu extends Level{
         }
         // load star data
         int numOfStarGroups = 9;
-        int[][] isStar = new int[numOfStarGroups][3];
+        isStar = new int[numOfStarGroups][3];
         StarFileController starFileController = new StarFileController();
         starFileController.getAllStars(isStar);
 
@@ -67,15 +68,15 @@ public class Menu extends Level{
 
                     int id = b.getID();
                     switch (id) {
-                        case 1: return new Level1(mouseController, keyHandler);
-                        case 2: return new Level2(mouseController, keyHandler);
-                        case 3: return new Level3(mouseController, keyHandler);
-                        case 4: return new Level4(mouseController, keyHandler);
-                        case 5: return new Level5(mouseController, keyHandler);
-                        case 6: return new Level6(mouseController, keyHandler);
-                        case 7: return new Level7(mouseController, keyHandler);
-                        case 8: return new Level8(mouseController, keyHandler);
-                        case 9: return new Level9(mouseController, keyHandler);
+                        case 1: return new Level1(mouseController, keyHandler, isStar[0]);
+                        case 2: return new Level2(mouseController, keyHandler, isStar[1]);
+                        case 3: return new Level3(mouseController, keyHandler, isStar[2]);
+                        case 4: return new Level4(mouseController, keyHandler, isStar[3]);
+                        case 5: return new Level5(mouseController, keyHandler, isStar[4]);
+                        case 6: return new Level6(mouseController, keyHandler, isStar[5]);
+                        case 7: return new Level7(mouseController, keyHandler, isStar[6]);
+                        case 8: return new Level8(mouseController, keyHandler, isStar[7]);
+                        case 9: return new Level9(mouseController, keyHandler, isStar[8]);
                     }
                 }
             }

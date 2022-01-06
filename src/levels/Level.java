@@ -35,14 +35,14 @@ public abstract class Level {
     protected final int NUM_OF_IMAGES = 11;
     protected BufferedImage[] boomImages = new BufferedImage[NUM_OF_IMAGES];
 
-    public Level(MouseController mC, KeyHandler kH, int levelNumber) {
+    public Level(MouseController mC, KeyHandler kH, int levelNumber, int[] stars) {
         this.levelNumber = levelNumber;
         mouseController = mC;
         keyHandler = kH;
         player = new Player(kH);
         enemiesList = new ArrayList<>();
         boomEntities = new ArrayList<>();
-        stars = new int[] {0, 0, 0};
+        this.stars = Arrays.copyOf(stars, 3);
         menuButton = new Button(5, 5, 25, 20, new Color(255, 0, 0), new Color(200, 0, 0), "X", 15);
         menuButton.fontPosXChange = -6;
         loadBoomImages();

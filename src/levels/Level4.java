@@ -8,8 +8,8 @@ import main.MouseController;
 
 public class Level4 extends Level{
 
-    public Level4(MouseController mC, KeyHandler kH) {
-        super(mC, kH, 4);
+    public Level4(MouseController mC, KeyHandler kH, int [] stars) {
+        super(mC, kH, 4, stars);
         backgroundImage = loadBackgroundImage("../images/level_background/background_l1.png");
         enemiesList.add(new LaserEnemy());
     }

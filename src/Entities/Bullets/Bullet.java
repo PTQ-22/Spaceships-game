@@ -11,14 +11,14 @@ import java.util.Objects;
 public class Bullet {
     public int x, y;
     protected boolean goDown;
-    protected int speed = 10;
+    protected int speed = 7;
     protected int power = 30;
     public double hitDrawScale = 0.2;
     BufferedImage image;
 
     public Bullet(int x, int y, String imgPathName, boolean goDown) {
         this.x = x;
-        this.y = y;
+        this.y = y - 10;
         this.goDown = goDown;
         image = loadImage(imgPathName);
     }
