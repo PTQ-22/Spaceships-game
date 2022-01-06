@@ -3,18 +3,18 @@ package Entities;
 import java.awt.*;
 
 public class HpBar {
-    private final int X, Y;
-    private final int WIDTH, HEIGHT;
+    protected final int X, Y;
+    protected final int WIDTH, HEIGHT;
 
-    private final int FONT_Y;
-    private final int FONT_SIZE = 20;
+    protected final int FONT_Y;
+    protected final int FONT_SIZE = 20;
 
-    private final int BORDER_SIZE = 5;
+    protected final int BORDER_SIZE = 5;
 
-    private int hp;
+    protected int hp;
 
-    private final Font font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
-    private final String TEXT;
+    protected final Font font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
+    protected final String TEXT;
 
     public HpBar(int x, int y, int hp, String text) {
         X = x;
