@@ -102,7 +102,6 @@ public abstract class Level {
                 for (Entity e : enemiesList) {
                     e.move();
                     e.moveBullets();
-                    checkEnemyBulletsHits(e);
                 }
             }
         }
@@ -116,8 +115,10 @@ public abstract class Level {
         }
         if (player.getHp() <= 0) {
             startBoomAnimation(player);
+            player = null;
             state = "lose";
             font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
+            return;
         }
         for (int i = 0; i < enemiesList.size(); ++i) {
             Entity e = enemiesList.get(i);

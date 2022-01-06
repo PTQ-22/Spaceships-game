@@ -45,8 +45,7 @@ public class Bullet {
             if (this.y > target.y && (this.y + 5) < (target.y + target.height))
                 return true;
         if (this.x > target.x && (this.x + 5) < (target.x + target.width))
-            if (this.y > (target.y + target.pointY1) && (this.y + 5) < (target.y + target.pointY2))
-                return true;
+            return this.y > (target.y + target.pointY1) && (this.y + 5) < (target.y + target.pointY2);
         return false;
     }
 

@@ -54,7 +54,13 @@ public abstract class Entity {
         loadAllImages(imgFolderAndFilePathName);
     }
 
-    public abstract void draw(Graphics2D g2);
+    public void draw(Graphics2D g2) {
+        animationCounter++;
+        if (animationCounter >= 58) {
+            animationCounter = 0;
+        }
+        g2.drawImage(images[animationCounter / 6], x, y, null);
+    }
 
     protected abstract void shot();
 

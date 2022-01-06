@@ -4,8 +4,6 @@ import Entities.Bullets.Bullet;
 import Entities.Entity;
 import Entities.HpBar;
 
-import java.awt.*;
-
 public class RedSmall extends Entity {
 
     public RedSmall(int x, int y, int hp, int hpBarX) {
@@ -14,15 +12,6 @@ public class RedSmall extends Entity {
                 "ENEMY", "red_enemy/enemy1_");
         hpBar = new HpBar(hpBarX, 25, hp, name);
 
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        animationCounter++;
-        if (animationCounter >= 58) {
-            animationCounter = 0;
-        }
-        g2.drawImage(images[animationCounter / 6], x, y, null);
     }
 
     @Override
