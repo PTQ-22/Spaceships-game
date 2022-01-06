@@ -54,7 +54,7 @@ public class Bullet {
         BufferedImage bg = null;
         try {
             bg = ImageIO.read(
-                    Objects.requireNonNull(getClass().getResourceAsStream("../../images/" + path))
+                    Objects.requireNonNull(getClass().getResourceAsStream("/" + path))
             );
         }
         catch (IOException e) {

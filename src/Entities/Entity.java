@@ -118,9 +118,9 @@ public abstract class Entity {
 
     protected void loadAllImages(String imgFolderAndFilePathName) {
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
-            String IMG_PATH = "../../images/" + imgFolderAndFilePathName;
+            String IMG_PATH = "/" + imgFolderAndFilePathName;
             images[i - 1] = loadImage(IMG_PATH + i + ".png");
-            boomImages[i - 1] = loadImage("../../images/boom_animation/boom_" + i + ".png");
+            boomImages[i - 1] = loadImage("/boom_animation/boom_" + i + ".png");
         }
     }
 

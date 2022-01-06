@@ -35,8 +35,8 @@ public class Player extends Entity{
         loadAllImages("player/player_");
         currentImages = images;
         for (int i = 0; i < NUM_OF_IMAGES; ++i) {
-            imagesTurnRight[i] = loadImage("../images/player/player_turn_right_test.png");
-            imagesTurnLeft[i] = loadImage("../images/player/player_turn_left_test.png");
+            imagesTurnRight[i] = loadImage("/player/player_turn_right_test.png");
+            imagesTurnLeft[i] = loadImage("/player/player_turn_left_test.png");
         }
     }
 
@@ -96,9 +96,9 @@ public class Player extends Entity{
     @Override
     protected void loadAllImages(String imgFolderAndFilePathName) {
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
-            String IMG_PATH = "../images/" + imgFolderAndFilePathName;
+            String IMG_PATH = "/" + imgFolderAndFilePathName;
             images[i - 1] = loadImage(IMG_PATH + i + ".png");
-            boomImages[i - 1] = loadImage("../images/boom_animation/boom_" + i + ".png");
+            boomImages[i - 1] = loadImage("/boom_animation/boom_" + i + ".png");
         }
     }
 

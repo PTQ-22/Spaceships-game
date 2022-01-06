@@ -6,7 +6,7 @@ import Entities.Player;
 import Entities.Entity;
 import main.KeyHandler;
 import main.MouseController;
-import starData.StarFileController;
+import main.StarFileController;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -297,7 +297,7 @@ public abstract class Level {
 
     protected void loadBoomImages() {
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
-            boomImages[i - 1] = loadBackgroundImage("../images/boom_animation/boom_" + i + ".png");
+            boomImages[i - 1] = loadBackgroundImage("/boom_animation/boom_" + i + ".png");
         }
     }
 }

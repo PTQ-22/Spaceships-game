@@ -4,7 +4,7 @@ import Button.Button;
 import Button.StarsButton;
 import main.KeyHandler;
 import main.MouseController;
-import starData.StarFileController;
+import main.StarFileController;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,7 +25,7 @@ public class Menu extends Level{
         this.keyHandler = keyHandler;
         // load background images
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
-            String IMG_PATH = "../images/menu_background/background_start_";
+            String IMG_PATH = "/menu_background/background_start_";
             backgroundImages[i - 1] = loadBackgroundImage(IMG_PATH + i + ".png");
         }
         // load star data

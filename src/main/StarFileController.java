@@ -1,9 +1,6 @@
-package starData;
+package main;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -42,7 +39,7 @@ public class StarFileController {
     private void writeFileLines() {
         try {
             String path = System.getProperty("user.dir");
-            FileWriter file = new FileWriter(path + "/src/starData/data.txt", false);
+            FileWriter file = new FileWriter(path + "/data.txt", false);
             for (String line: fileLines) {
                 file.write(line + "\n");
             }
@@ -56,7 +53,7 @@ public class StarFileController {
     // read data from data.txt and save it to fileLines
     private void readFileLines() {
         String path = System.getProperty("user.dir");
-        File file = new File(path + "/src/starData/data.txt");
+        File file = new File(path + "/data.txt");
         try {
             fileScanner = new Scanner(file);
         }

@@ -10,7 +10,7 @@ public class Level4 extends Level{
 
     public Level4(MouseController mC, KeyHandler kH, int [] stars) {
         super(mC, kH, 4, stars);
-        backgroundImage = loadBackgroundImage("../images/level_background/background_l1.png");
+        backgroundImage = loadBackgroundImage("/level_background/background_l1.png");
         enemiesList.add(new LaserEnemy());
     }
 

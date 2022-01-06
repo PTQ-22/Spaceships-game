@@ -19,7 +19,7 @@ public class LaserEnemy extends Entity {
                 59, 112, 55, 107,
                 "LASERSHIP", "lasership/lasership_");
         hpBar = new HpBar(40, 25, hp, name);
-        laserImg = loadImage("../../images/lasership/laser_1.png");
+        laserImg = loadImage("/lasership/laser_1.png");
         scaleBoomImages(1.5);
     }
 

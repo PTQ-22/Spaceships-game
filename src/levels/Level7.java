@@ -9,7 +9,7 @@ public class Level7 extends Level{
 
     public Level7(MouseController mC, KeyHandler kH, int [] stars) {
         super(mC, kH, 7, stars);
-        backgroundImage = loadBackgroundImage("../images/level_background/background_l7.png");
+        backgroundImage = loadBackgroundImage("/level_background/background_l7.png");
     }
 
     @Override
