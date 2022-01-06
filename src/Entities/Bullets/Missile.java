@@ -8,6 +8,7 @@ public class Missile extends Bullet {
         TARGET_X = playerX + 50;
         this.speed = 12;
         this.power = 50;
+        hitDrawScale = 0.5;
     }
 
     @Override

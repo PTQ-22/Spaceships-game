@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Bullet {
-    protected int x, y;
+    public int x, y;
     protected boolean goDown;
     protected int speed = 10;
     protected int power = 30;
+    public double hitDrawScale = 0.2;
     BufferedImage image;
 
     public Bullet(int x, int y, String imgPathName, boolean goDown) {

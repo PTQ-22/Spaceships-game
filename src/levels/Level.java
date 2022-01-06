@@ -10,9 +10,12 @@ import starData.StarFileController;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class Level {
@@ -28,7 +31,9 @@ public abstract class Level {
     protected int[] stars;
     protected int levelNumber;
     protected ArrayList<Entity> boomEntities;
-//    protected int animationCounter;
+    protected ArrayList<Hit> bulletHits = new ArrayList<>();
+    protected final int NUM_OF_IMAGES = 11;
+    protected BufferedImage[] boomImages = new BufferedImage[NUM_OF_IMAGES];
 
     public Level(MouseController mC, KeyHandler kH, int levelNumber) {
         this.levelNumber = levelNumber;
@@ -40,6 +45,7 @@ public abstract class Level {
         stars = new int[] {0, 0, 0};
         menuButton = new Button(5, 5, 25, 20, new Color(255, 0, 0), new Color(200, 0, 0), "X", 15);
         menuButton.fontPosXChange = -6;
+        loadBoomImages();
     }
 
     protected Level() {} // for Menu different constructor
@@ -55,6 +61,7 @@ public abstract class Level {
                     e.drawBullets(g2);
                     e.drawHpBar(g2);
                 }
+                drawHits(g2);
                 player.drawHpBar(g2);
             }
             case "win" -> {
@@ -62,6 +69,7 @@ public abstract class Level {
                 player.draw(g2);
                 player.drawBullets(g2);
                 player.drawHpBar(g2);
+                drawHits(g2);
                 g2.setColor(Color.green);
                 g2.setFont(font);
                 g2.drawString("WIN", 390, 300);
@@ -73,6 +81,7 @@ public abstract class Level {
                     e.drawBullets(g2);
                     e.drawHpBar(g2);
                 }
+                drawHits(g2);
                 g2.setColor(new Color(230, 0, 0));
                 g2.setFont(font);
                 g2.drawString("LOSE", 360, 300);
@@ -140,6 +149,7 @@ public abstract class Level {
             for (int j = 0; j < enemiesList.size(); ++j) {
                 Entity e = enemiesList.get(j);
                 if (playerBullet.hit(e)) {
+                    startDrawingHit(playerBullet.x, playerBullet.y, playerBullet.hitDrawScale);
                     player.bullets.remove(i);
                     --i;
                     e.decreaseHp(playerBullet.getPower());
@@ -158,9 +168,60 @@ public abstract class Level {
         for (int i = 0; i < e.bullets.size(); ++i) {
             Bullet enemyBullet = e.bullets.get(i);
             if (enemyBullet.hit(player)) {
+                startDrawingHit(enemyBullet.x, enemyBullet.y, enemyBullet.hitDrawScale);
                 e.bullets.remove(i);
                 --i;
                 player.decreaseHp(enemyBullet.getPower());
+            }
+        }
+    }
+    
+    protected class Hit {
+        private final BufferedImage[] hitImages = Arrays.copyOf(boomImages, NUM_OF_IMAGES);
+        private final int x, y;
+        private int boomCounter = 0;
+        public boolean isBoom = true;
+
+        public Hit(int x, int y, double scale) {
+            this.x = x - 5;
+            this.y = y;
+            scaleBoomImages(scale);
+        }
+
+        public void drawBoomAnimation(Graphics2D g2) {
+            boomCounter++;
+            if (boomCounter >= 20) {
+                isBoom = false;
+            }
+            g2.drawImage(hitImages[boomCounter / 2], x, y, null);
+        }
+
+        protected void scaleBoomImages(double scale) {
+            for (int i = 0; i < hitImages.length; ++i) {
+                int w = hitImages[i].getWidth();
+                int h = hitImages[i].getHeight();
+                int integerScale = (int)Math.ceil(scale);
+                BufferedImage after = new BufferedImage(w * integerScale, h * integerScale, BufferedImage.TYPE_INT_ARGB);
+                AffineTransform at = new AffineTransform();
+                at.scale(scale, scale);
+                AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+                after = scaleOp.filter(hitImages[i], after);
+                hitImages[i] = after;
+            }
+        }
+    }
+    
+    protected void startDrawingHit(int x, int y, double scale) {
+        bulletHits.add(new Hit(x, y, scale));
+    }
+
+    protected void drawHits(Graphics2D g2) {
+        for (int i = 0; i < bulletHits.size(); ++i) {
+            Hit h = bulletHits.get(i);
+            h.drawBoomAnimation(g2);
+            if (!h.isBoom) {
+                bulletHits.remove(i);
+                --i;
             }
         }
     }
@@ -232,5 +293,11 @@ public abstract class Level {
             e.printStackTrace();
         }
         return bg;
+    }
+
+    protected void loadBoomImages() {
+        for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
+            boomImages[i - 1] = loadBackgroundImage("../images/boom_animation/boom_" + i + ".png");
+        }
     }
 }
