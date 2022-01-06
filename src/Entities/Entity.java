@@ -4,6 +4,8 @@ import Entities.Bullets.Bullet;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public abstract class Entity {
     protected BufferedImage[] boomImages = new BufferedImage[NUM_OF_IMAGES];
     protected int animationCounter = 0;
 
-    public ArrayList<Bullet> bullets;
+    public ArrayList<Bullet> bullets = new ArrayList<>();
     protected boolean lostBullet = false;
     public boolean isBoom = false;
     public int boomAnimationCounter = 0;
@@ -54,7 +56,21 @@ public abstract class Entity {
 
     public abstract void draw(Graphics2D g2);
 
-    public abstract void move();
+    protected abstract void shot();
+
+    public void drawHpBar(Graphics2D g2) {
+        hpBar.draw(g2);
+    }
+
+    public void move() {
+        if (x <= 0) goRight = true;
+        if (x >= 1000 - width) goRight = false;
+        if (goRight) x += speed;
+        else x -= speed;
+
+        hpBar.setHp(hp);
+        shot();
+    }
 
     public void decreaseHp(int val) {
         hp -= val;
@@ -115,4 +131,17 @@ public abstract class Entity {
         return bg;
     }
 
+    protected void scaleBoomImages(double scale) {
+        for (int i = 0; i < boomImages.length; ++i) {
+            int w = boomImages[i].getWidth();
+            int h = boomImages[i].getHeight();
+            int integerScale = (int)Math.ceil(scale);
+            BufferedImage after = new BufferedImage(w * integerScale, h * integerScale, BufferedImage.TYPE_INT_ARGB);
+            AffineTransform at = new AffineTransform();
+            at.scale(scale, scale);
+            AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+            after = scaleOp.filter(boomImages[i], after);
+            boomImages[i] = after;
+        }
+    }
 }

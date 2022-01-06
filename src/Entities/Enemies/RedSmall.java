@@ -5,7 +5,6 @@ import Entities.Entity;
 import Entities.HpBar;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class RedSmall extends Entity {
 
@@ -15,7 +14,6 @@ public class RedSmall extends Entity {
                 "ENEMY", "red_enemy/enemy1_");
         hpBar = new HpBar(hpBarX, 25, hp, name);
 
-        bullets = new ArrayList<>();
     }
 
     @Override
@@ -25,22 +23,10 @@ public class RedSmall extends Entity {
             animationCounter = 0;
         }
         g2.drawImage(images[animationCounter / 6], x, y, null);
-
-        hpBar.draw(g2);
     }
 
     @Override
-    public void move() {
-        if (x <= 0) goRight = true;
-        if (x >= 1000 - width) goRight = false;
-        if (goRight) x += speed;
-        else x -= speed;
-
-        hpBar.setHp(hp);
-        shot();
-    }
-
-    private void shot() {
+    protected void shot() {
         if (animationCounter == 57) {
             bullets.add(new Bullet(x + width / 2, y + height, "bullets/bullet_red.png", true ));
         }

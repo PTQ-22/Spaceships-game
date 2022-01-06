@@ -53,12 +53,15 @@ public abstract class Level {
                 for (Entity e : enemiesList) {
                     e.draw(g2);
                     e.drawBullets(g2);
+                    e.drawHpBar(g2);
                 }
+                player.drawHpBar(g2);
             }
             case "win" -> {
                 drawAllBoomAnimations(g2);
                 player.draw(g2);
                 player.drawBullets(g2);
+                player.drawHpBar(g2);
                 g2.setColor(Color.green);
                 g2.setFont(font);
                 g2.drawString("WIN", 390, 300);
@@ -68,6 +71,7 @@ public abstract class Level {
                 for (Entity e : enemiesList) {
                     e.draw(g2);
                     e.drawBullets(g2);
+                    e.drawHpBar(g2);
                 }
                 g2.setColor(new Color(230, 0, 0));
                 g2.setFont(font);

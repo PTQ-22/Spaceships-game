@@ -5,7 +5,6 @@ import main.KeyHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Player extends Entity{
     KeyHandler keyHandler;
@@ -33,8 +32,6 @@ public class Player extends Entity{
         this.name = "PLAYER";
         this.hpBar = new HpBar(20, 720, hp, name);
 
-        bullets = new ArrayList<>();
-
         loadAllImages("player/player_");
         currentImages = images;
         for (int i = 0; i < NUM_OF_IMAGES; ++i) {
@@ -50,8 +47,6 @@ public class Player extends Entity{
             animationCounter = 0;
         }
         g2.drawImage(currentImages[animationCounter / 6], x, y, null);
-
-        hpBar.draw(g2);
     }
 
     @Override
@@ -69,21 +64,24 @@ public class Player extends Entity{
         if (keyHandler.upPressed) y -= speed;
         if (keyHandler.downPressed) y += speed;
 
-        if (keyHandler.spaceTyped) {
-            keyHandler.spaceTyped = false;
-            bullets.add(new Bullet(x + width / 2, y, "bullets/bullet_green.png", false));
-        }
-
+        shot();
         hpBar.setHp(hp);
         detectBorderCollision();
     }
 
-    // TODO change this to work with all enemies
+    @Override
+    protected void shot() {
+        if (keyHandler.spaceTyped) {
+            keyHandler.spaceTyped = false;
+            bullets.add(new Bullet(x + width / 2, y, "bullets/bullet_green.png", false));
+        }
+    }
+
     public boolean collision(Entity enemy) {
         if ((enemy.x + enemy.width) > this.x && enemy.x < (this.x + this.width))
-            if ((enemy.y + enemy.height - 45) > this.y && (enemy.y + 55) < (this.y + this.height))
+            if ((enemy.y + enemy.height - enemy.pointY2) > this.y && (enemy.y + enemy.pointY1) < (this.y + this.height))
                 return true;
-        if ((enemy.x + enemy.width - 40) > (this.x + 40) && (enemy.x + 40) < (this.x + this.width - 40))
+        if ((enemy.x + enemy.pointX2) > (this.x + this.pointX1) && (enemy.x + enemy.pointX1) < (this.x + this.pointX2))
             return (enemy.y + enemy.height) > this.y && enemy.y < (this.y + this.height);
         return false;
     }
