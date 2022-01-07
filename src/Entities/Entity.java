@@ -17,7 +17,7 @@ public abstract class Entity {
     public int pointX1, pointX2;
     public int pointY1, pointY2;
     public int width, height;
-    protected String name;
+    public String name;
 
     protected int speed;
     protected boolean goRight = true;
@@ -150,6 +150,12 @@ public abstract class Entity {
             AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
             after = scaleOp.filter(boomImages[i], after);
             boomImages[i] = after;
+        }
+    }
+
+    protected void loadBoomImages() {
+        for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
+            boomImages[i - 1] = loadImage("/boom_animation/boom_" + i + ".png");
         }
     }
 }

@@ -125,11 +125,7 @@ public abstract class Level {
     }
 
     protected void checkCurrentState() {
-        if (enemiesList.size() == 0 || isAllNotImportant()) {
-            state = "win";
-            setStars();
-            font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
-        }
+        checkWinState();
         if (player.getHp() <= 0) {
             startBoomAnimation(player);
             player = null;
@@ -147,6 +143,14 @@ public abstract class Level {
                 state = "lose";
                 font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
             }
+        }
+    }
+
+    protected void checkWinState() {
+        if (enemiesList.size() == 0 || isAllNotImportant()) {
+            state = "win";
+            setStars();
+            font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
         }
     }
 
@@ -239,6 +243,7 @@ public abstract class Level {
         e.isBoom = true;
         boomEntities.add(e);
     }
+
     protected void drawAllBoomAnimations(Graphics2D g2) {
         for (int i = 0; i < boomEntities.size(); ++i) {
             Entity e = boomEntities.get(i);

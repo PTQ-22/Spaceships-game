@@ -6,7 +6,7 @@ public class Missile extends Bullet {
     public Missile(int x, int y, String imgPathName, boolean goDown, int playerX) {
         super(x, y, imgPathName, goDown);
         TARGET_X = playerX + 50;
-        this.speed = 12;
+        this.speed = 8;
         this.power = 50;
         hitDrawScale = 0.5;
     }

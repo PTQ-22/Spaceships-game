@@ -164,10 +164,4 @@ public class SpawnerEnemy extends Entity {
         @Override
         public void drawHpBar(Graphics2D g2) {}
     }
-
-    private void loadBoomImages() {
-        for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
-            boomImages[i - 1] = loadImage("/boom_animation/boom_" + i + ".png");
-        }
-    }
 }
