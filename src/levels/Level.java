@@ -19,10 +19,10 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class Level {
+    protected ArrayList<Entity> enemiesList;
     protected BufferedImage backgroundImage;
     protected Player player;
     protected Button menuButton = null;
-    protected ArrayList<Entity> enemiesList;
     protected MouseController mouseController;
     protected KeyHandler keyHandler;
     protected String state = "game";
@@ -31,6 +31,7 @@ public abstract class Level {
     protected int[] stars;
     protected int levelNumber;
     protected ArrayList<Entity> boomEntities;
+    protected ArrayList<Entity> gameBoomEntities;
     protected ArrayList<Hit> bulletHits = new ArrayList<>();
     protected final int NUM_OF_IMAGES = 11;
     protected BufferedImage[] boomImages = new BufferedImage[NUM_OF_IMAGES];
@@ -62,6 +63,7 @@ public abstract class Level {
                     e.drawHpBar(g2);
                 }
                 drawHits(g2);
+                drawAllBoomAnimations(g2);
                 player.drawHpBar(g2);
             }
             case "win" -> {
@@ -96,7 +98,8 @@ public abstract class Level {
                 player.move();
                 player.moveBullets();
                 checkPlayerBulletsHits();
-                for (Entity e : enemiesList) {
+                for (int i = 0; i < enemiesList.size(); ++i) {
+                    Entity e = enemiesList.get(i);
                     e.move();
                     e.moveBullets();
                     checkEnemyBulletsHits(e);
@@ -108,7 +111,8 @@ public abstract class Level {
                 player.moveBullets();
             }
             case "lose" -> {
-                for (Entity e : enemiesList) {
+                for (int i = 0; i < enemiesList.size(); ++i) {
+                    Entity e = enemiesList.get(i);
                     e.move();
                     e.moveBullets();
                 }
@@ -116,8 +120,12 @@ public abstract class Level {
         }
     }
 
+    public void addEnemy(Entity e) {
+        enemiesList.add(e);
+    }
+
     protected void checkCurrentState() {
-        if (enemiesList.size() == 0) {
+        if (enemiesList.size() == 0 || isAllNotImportant()) {
             state = "win";
             setStars();
             font = new Font("FreeSans", Font.BOLD, FONT_SIZE);
@@ -131,7 +139,7 @@ public abstract class Level {
         }
         for (int i = 0; i < enemiesList.size(); ++i) {
             Entity e = enemiesList.get(i);
-            if (player.collision(e)) {
+            if (e.canCollision && player.collision(e)) {
                 startBoomAnimation(player);
                 startBoomAnimation(e);
                 enemiesList.remove(i);
@@ -158,6 +166,7 @@ public abstract class Level {
                         enemiesList.remove(j);
                         --j;
                     }
+                    break;
                 }
             }
         }
@@ -299,5 +308,12 @@ public abstract class Level {
         for (int i = 1; i <= NUM_OF_IMAGES; ++i) {
             boomImages[i - 1] = loadBackgroundImage("/boom_animation/boom_" + i + ".png");
         }
+    }
+
+    protected boolean isAllNotImportant() {
+        for (Entity e: enemiesList) {
+            if (e.canCollision) return false;
+        }
+        return true;
     }
 }

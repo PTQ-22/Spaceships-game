@@ -29,7 +29,7 @@ public class Level7 extends Level{
                             --i;
                             engine.decreaseHp(playerBullet.getPower());
                             if (engine.getHp() <= 0) {
-                                e.startEngineBoomAnimation(engine);
+                                startBoomAnimation(engine);
                                 e.engines.remove(k);
                                 --k;
                             }

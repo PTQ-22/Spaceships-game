@@ -34,6 +34,7 @@ public abstract class Entity {
     protected boolean lostBullet = false;
     public boolean isBoom = false;
     public int boomAnimationCounter = 0;
+    public boolean canCollision = true;
     protected Entity() {} // for player
 
     public Entity(int x, int y, int width, int height, int hp, int speed,
@@ -91,7 +92,8 @@ public abstract class Entity {
     }
 
     public void drawBullets(Graphics2D g2) {
-        for (Bullet b : bullets) {
+        for (int i = 0; i < bullets.size(); ++i) {
+            Bullet b = bullets.get(i);
             b.draw(g2);
         }
     }

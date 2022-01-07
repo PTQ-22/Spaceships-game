@@ -21,7 +21,6 @@ public class Boss extends Entity {
     private boolean missileShot = false;
     private final Player player;
     public final ArrayList<Engine> engines = new ArrayList<>();
-    public final ArrayList<Engine> boomEngines = new ArrayList<>();
 
     public Boss(Player player) {
         super(100, 40, 300, 300, 550, 2, 126, 173, 120, 160,
@@ -53,7 +52,6 @@ public class Boss extends Entity {
                 e.drawHpBar(g2);
             }
         }
-        drawEnginesBoomAnimation(g2);
     }
 
     @Override
@@ -91,10 +89,8 @@ public class Boss extends Entity {
             g2.setColor(Color.black);
             g2.setFont(font);
             g2.drawString(TEXT, X, FONT_Y);
-
             // border
             g2.fillRect(X, Y, WIDTH, HEIGHT);
-
             // hp
             g2.setColor(Color.red);
             g2.fillRect(X + BORDER_SIZE, Y + BORDER_SIZE, WIDTH - 2 * BORDER_SIZE, HEIGHT - 2 * BORDER_SIZE);
@@ -102,24 +98,6 @@ public class Boss extends Entity {
             g2.fillRect(X + BORDER_SIZE, Y + BORDER_SIZE, hp, HEIGHT - 2 * BORDER_SIZE);
             if (isShield) {
                 g2.drawImage(hpBarShieldImg, hpBarX - 2, hpBarY - 5, null);
-            }
-        }
-    }
-
-    public void startEngineBoomAnimation(Engine e) {
-        e.isBoom = true;
-        boomEngines.add(e);
-    }
-
-    private void drawEnginesBoomAnimation(Graphics2D g2) {
-        for (int i = 0; i < boomEngines.size(); ++i) {
-            Engine e = boomEngines.get(i);
-            if (e.isBoom) {
-                e.drawBoomAnimation(g2);
-                if (!e.isBoom) {
-                    boomEngines.remove(i);
-                    --i;
-                }
             }
         }
     }
