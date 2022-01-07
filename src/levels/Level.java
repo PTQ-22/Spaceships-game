@@ -31,7 +31,6 @@ public abstract class Level {
     protected int[] stars;
     protected int levelNumber;
     protected ArrayList<Entity> boomEntities;
-    protected ArrayList<Entity> gameBoomEntities;
     protected ArrayList<Hit> bulletHits = new ArrayList<>();
     protected final int NUM_OF_IMAGES = 11;
     protected BufferedImage[] boomImages = new BufferedImage[NUM_OF_IMAGES];
@@ -57,7 +56,8 @@ public abstract class Level {
             case "game" -> {
                 player.draw(g2);
                 player.drawBullets(g2);
-                for (Entity e : enemiesList) {
+                for (int i = 0; i < enemiesList.size(); ++i) {
+                    Entity e = enemiesList.get(i);
                     e.draw(g2);
                     e.drawBullets(g2);
                     e.drawHpBar(g2);
@@ -78,7 +78,8 @@ public abstract class Level {
             }
             case "lose" -> {
                 drawAllBoomAnimations(g2);
-                for (Entity e : enemiesList) {
+                for (int i = 0; i < enemiesList.size(); ++i) {
+                    Entity e = enemiesList.get(i);
                     e.draw(g2);
                     e.drawBullets(g2);
                     e.drawHpBar(g2);
