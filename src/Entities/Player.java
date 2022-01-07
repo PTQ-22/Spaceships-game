@@ -12,6 +12,7 @@ public class Player extends Entity{
     BufferedImage[] imagesTurnLeft = new BufferedImage[NUM_OF_IMAGES];
     BufferedImage[] currentImages;
     private final int START_HP;
+    private long lastSpaceTypedTime = 0;
 
     public Player(KeyHandler kH) {
         keyHandler = kH;
@@ -71,8 +72,11 @@ public class Player extends Entity{
 
     @Override
     protected void shot() {
-        if (keyHandler.spaceTyped) {
+        long currentSpaceTypedTime = System.nanoTime();
+        long diff = currentSpaceTypedTime - lastSpaceTypedTime;
+        if (keyHandler.spaceTyped && diff > 2_000_000_00) {
             keyHandler.spaceTyped = false;
+            lastSpaceTypedTime = currentSpaceTypedTime;
             bullets.add(new Bullet(x + width / 2, y, "bullets/bullet_green.png", false));
         }
     }

@@ -97,7 +97,7 @@ public class SpawnerEnemy extends Entity {
             pointY1 = 0;
             pointY2 = 50;
             speed = 3;
-            hp = 60;
+            hp = 90;
             name = "BOSS";
             image = loadImage("/spawner_enemy/spawned_1.png");
             discImage = loadImage("/spawner_enemy/small_disc.png");
