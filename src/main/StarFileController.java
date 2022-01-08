@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class StarFileController {
     private final int NUM_OF_LEVELS = 9;
     private final String[] fileLines = new String[NUM_OF_LEVELS];
-    private Scanner fileScanner;
 
     public void updateStars(int level, int[] newStars) {
         readFileLines();
@@ -55,16 +54,21 @@ public class StarFileController {
         String path = System.getProperty("user.dir");
         File file = new File(path + "/data.txt");
         try {
-            fileScanner = new Scanner(file);
+            Scanner fileScanner = new Scanner(file);
+            int i = 0;
+            while (fileScanner.hasNextLine()) {
+                fileLines[i] = fileScanner.nextLine();
+                ++i;
+            }
+            fileScanner.close();
         }
         catch (FileNotFoundException e) {
-            e.printStackTrace();
+            try {
+                file.createNewFile();
+                resetAllStars();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
-        int i = 0;
-        while (fileScanner.hasNextLine()) {
-            fileLines[i] = fileScanner.nextLine();
-            ++i;
-        }
-        fileScanner.close();
     }
 }
